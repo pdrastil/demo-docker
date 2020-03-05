@@ -1,0 +1,20 @@
+---
+version: '3'
+services:
+  web:
+    restart: always
+    image: pdrastil/hello-world
+    build:
+      context: .
+      args:
+        BASE_IMAGE: alpine:3.11
+        GLIBC_VERSION: 2.30-r0
+        JAVA_VERSION: 8u241
+        JAVA_BUILD: '07'
+    healthcheck:
+      test: "/usr/bin/wget --quiet --tries=1 --spider http://localhost:8080/ || exit 1"
+      interval: 10s
+      timeout: 10s
+      retries: 3
+    ports:
+      - "8080:8080"
